@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Quiz Master - Interactive Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Custom Alert System -->
+    <div id="alert-overlay" class="alert-overlay hidden">
+        <div class="alert-modal">
+            <div class="alert-header">
+                <div class="alert-icon" id="alert-icon"></div>
+                <h3 id="alert-title">Alert</h3>
+            </div>
+            <div class="alert-body">
+                <p id="alert-message"></p>
+            </div>
+            <div class="alert-actions">
+                <button id="alert-confirm" class="btn btn-primary">OK</button>
+                <button id="alert-cancel" class="btn btn-secondary hidden">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">🎯 CS Quiz Master</h1>
+            <nav class="nav">
+                <button class="nav-btn active" data-section="home">Home</button>
+                <button class="nav-btn" data-section="notes">Study Notes</button>
+                <button class="nav-btn" data-section="quiz">Take Quiz</button>
+                <button class="nav-btn" data-section="scores">My Scores</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="container">
+                <div class="hero">
+                    <h2>Master Computer Science with Interactive Quizzes</h2>
+                    <p>Study comprehensive CS topics and test your knowledge with timed quizzes</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" data-action="goto-notes">Start Learning</button>
+                        <button class="btn btn-secondary" data-action="goto-quiz">Take Quiz</button>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <h3 id="total-topics">0</h3>
+                        <p>Study Topics</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">❓</div>
+                        <h3 id="total-questions">0</h3>
+                        <p>Quiz Questions</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <h3 id="best-score">0%</h3>
+                        <p>Best Score</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section id="notes" class="section">
+            <div class="container">
+                <div class="notes-header">
+                    <h2>Study Notes</h2>
+                    <div class="notes-controls">
+                        <div class="notes-filter">
+                            <label for="topic-filter">Filter by subject:</label>
+                            <select id="topic-filter">
+                                <option value="all">All Subjects</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="notes-container" class="notes-grid"></div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="section">
+            <div class="container">
+                <!-- Quiz Setup -->
+                <div id="quiz-setup" class="quiz-setup">
+                    <h2>Choose Quiz Topic</h2>
+                    <div class="topic-selection">
+                        <div id="topic-cards" class="topic-cards"></div>
+                    </div>
+                    <button id="start-quiz" class="btn btn-primary">Start Quiz</button>
+                </div>
+
+                <!-- Quiz Interface -->
+                <div id="quiz-interface" class="quiz-interface hidden">
+                    <div class="quiz-header">
+                        <div class="quiz-progress">
+                            <div class="progress-bar">
+                                <div id="progress-fill" class="progress-fill"></div>
+                            </div>
+                            <span id="question-counter">Question 1 of 5</span>
+                        </div>
+                        <div class="quiz-timer">
+                            <div class="timer-display">
+                                <div class="timer-icon">⏱️</div>
+                                <span id="timer">05:00</span>
+                            </div>
+                        </div>
+                        <div class="quiz-score">
+                            Score: <span id="current-score">0</span>/<span id="total-score">5</span>
+                        </div>
+                    </div>
+
+                    <div class="question-container">
+                        <h3 id="question-text"></h3>
+                        <div id="options-container" class="options-container"></div>
+                    </div>
+
+                    <div class="quiz-controls">
+                        <button id="submit-quiz" class="btn btn-warning">Submit Quiz</button>
+                        <button id="next-question" class="btn btn-primary hidden">Next Question</button>
+                        <button id="finish-quiz" class="btn btn-success hidden">Finish Quiz</button>
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quiz-results" class="quiz-results hidden">
+                    <h2>Quiz Complete!</h2>
+                    <div class="results-summary">
+                        <div class="score-circle">
+                            <div id="final-score-percentage" class="score-percentage">0%</div>
+                        </div>
+                        <div class="results-details">
+                            <p>You scored <span id="final-score">0</span> out of <span id="final-total">5</span></p>
+                            <p>Time taken: <span id="final-time">00:00</span></p>
+                            <p id="performance-message"></p>
+                        </div>
+                    </div>
+                    <div class="results-actions">
+                        <button id="retake-quiz" class="btn btn-primary">Retake Quiz</button>
+                        <button id="new-quiz" class="btn btn-secondary">New Topic</button>
+                        <button data-action="goto-notes" class="btn btn-outline">Review Notes</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scores Section -->
+        <section id="scores" class="section">
+            <div class="container">
+                <h2>My Scores</h2>
+                <div class="scores-controls">
+                    <button id="clear-scores" class="btn btn-outline">Clear All Scores</button>
+                </div>
+                <div id="scores-container" class="scores-container">
+                    <div class="empty-state">
+                        <div class="empty-icon">📊</div>
+                        <p>No quiz scores yet. Take a quiz to see your results here!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 CS Quiz Master. Learn, Practice, Excel.</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
